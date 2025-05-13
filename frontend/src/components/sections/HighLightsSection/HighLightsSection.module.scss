@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  // align-items: center;
+  justify-content: center;
+  gap: 2rem;
+
+  @media (min-width: 920px) {
+    flex-direction: row;
+  }
+
+  @media (max-width: 920px) {
+    flex-direction: column;
+  }
+}

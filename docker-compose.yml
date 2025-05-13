@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  api:
+    build: ./backend
+    env_file:
+      - .env
+    ports:
+      - "3001:3001"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/argentBankDB #mongodb://localhost/argentBankDB
+      - JWT_SECRET=$JWT_SECRET
+    depends_on:
+      - mongodb
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+
+  mongodb:
+    image: mongo:4.4
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+volumes:
+  mongodb_data:
