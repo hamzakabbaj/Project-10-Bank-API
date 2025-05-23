@@ -6,11 +6,15 @@
   background-color: #fff;
   width: 80%;
   margin: 0 auto;
-  // flex-direction: column;
+  flex-direction: column;
   padding: 1.5rem;
   box-sizing: border-box;
   text-align: left;
   margin-bottom: 2rem;
+
+  @media (min-width: 920px) {
+    flex-direction: row;
+  }
 
   &__content {
     width: 100%;
@@ -39,5 +43,17 @@
     margin-top: 1rem;
     text-align: right;
     flex: 1;
+
+    & div {
+      width: 100%;
+
+      & button {
+        width: 100%;
+
+        @media (min-width: 920px) {
+          width: 200px;
+        }
+      }
+    }
   }
 }
