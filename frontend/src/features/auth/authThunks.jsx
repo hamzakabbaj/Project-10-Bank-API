@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { loginAPI } from "./authAPI";
+import { loginAPI, updateUser } from "./authAPI";
 import { saveToken } from "@/utils/tokenStorage";
 
 export const loginUser = createAsyncThunk(
@@ -20,6 +20,20 @@ export const loginUser = createAsyncThunk(
       return transformedResponse;
     } catch (err) {
       console.error("Login error:", err);
+      return thunkAPI.rejectWithValue(err.message);
+    }
+  }
+);
+
+export const updateUserThunk = createAsyncThunk(
+  "auth/updateUser",
+  async ({ firstName, lastName }, thunkAPI) => {
+    try {
+      const response = await updateUser(firstName, lastName);
+      console.log("Update user response:", response);
+      return response;
+    } catch (err) {
+      console.error("Update user error:", err);
       return thunkAPI.rejectWithValue(err.message);
     }
   }

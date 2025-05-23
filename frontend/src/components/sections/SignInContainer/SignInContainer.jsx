@@ -6,10 +6,13 @@ import Input from "@/components/base/Input";
 import Button from "@/components/base/Button";
 import { useDispatch } from "react-redux";
 import { loginUser } from "@/features/auth/authThunks";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { getToken } from "@/utils/tokenStorage";
 
 const SignInContainer = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -21,6 +24,19 @@ const SignInContainer = () => {
     e.preventDefault();
     dispatch(loginUser({ username, password }));
   };
+
+  useEffect(() => {
+    const token = getToken();
+    if (token) {
+      dispatch(loginUser({ username, password }));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/profile");
+    }
+  }, [isAuthenticated]);
 
   return (
     <div className={styles.container}>

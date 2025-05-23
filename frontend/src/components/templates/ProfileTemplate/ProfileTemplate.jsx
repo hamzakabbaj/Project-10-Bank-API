@@ -2,19 +2,65 @@ import React from "react";
 import styles from "./ProfileTemplate.module.scss";
 import Button from "@/components/base/Button";
 import BalanceCard from "@/components/elements/BalanceCard";
+import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { updateUserThunk } from "@/features/auth/authThunks";
 
 const ProfileTemplate = () => {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
+  const status = useSelector((state) => state.auth.status);
+  const [editNameActive, setEditNameActive] = useState(false);
+  const [firstName, setFirstName] = useState(user.firstName);
+  const [lastName, setLastName] = useState(user.lastName);
+
+  const handleSave = () => {
+    dispatch(updateUserThunk({ firstName, lastName }));
+  };
+
+  useEffect(() => {
+    if (status === "succeeded") {
+      setEditNameActive(false);
+    }
+  }, [status]);
+
+  useEffect(() => {
+    setFirstName(user.firstName);
+    setLastName(user.lastName);
+  }, [user.firstName, user.lastName]);
+
   return (
     <div className={styles.container}>
       <div className={styles.container__header}>
         <h1>
           Welcome back
           <br></br>
-          Tony Jarvis!
+          {user.firstName} {user.lastName}!
         </h1>
-        <div className={styles.container__header__button}>
-          <Button label="Edit Name" />
-        </div>
+        {editNameActive ? (
+          <div>
+            <div>
+              <input
+                type="text"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+              <input
+                type="text"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              />
+            </div>
+            <div className={styles.container__header__button}>
+              <Button label="Save" onClick={handleSave} />
+            </div>
+          </div>
+        ) : (
+          <div className={styles.container__header__button}>
+            <Button label="Edit Name" onClick={() => setEditNameActive(true)} />
+          </div>
+        )}
       </div>
       <div className={styles.container__balance}>
         <BalanceCard

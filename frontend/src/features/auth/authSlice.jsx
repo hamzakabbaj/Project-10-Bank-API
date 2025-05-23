@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginUser } from "./authThunks";
+import { loginUser, updateUserThunk } from "./authThunks";
+import { clearToken } from "@/utils/tokenStorage";
 
 const initialState = {
   user: null,
@@ -17,6 +18,10 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
       state.isAuthenticated = false;
+      clearToken();
+    },
+    updateUser: (state, action) => {
+      state.user = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -36,6 +41,21 @@ const authSlice = createSlice({
         console.log("Auth state - rejected:", action.payload);
         state.status = "failed";
         state.error = action.payload;
+      })
+      .addCase(updateUserThunk.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.user = {
+          ...state.user,
+          firstName: action.payload.body.firstName,
+          lastName: action.payload.body.lastName,
+        };
+      })
+      .addCase(updateUserThunk.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(updateUserThunk.pending, (state) => {
+        state.status = "loading";
       });
   },
 });
