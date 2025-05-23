@@ -36,24 +36,27 @@ const ProfileTemplate = () => {
         <h1>
           Welcome back
           <br></br>
-          {user.firstName} {user.lastName}!
+          {!editNameActive && `${user.firstName} ${user.lastName}!`}
         </h1>
         {editNameActive ? (
-          <div>
-            <div>
+          <div className={styles.container__header__editName}>
+            <div className={styles.container__header__editName__inputs}>
               <input
+                className={styles.container__header__editName__inputs__input}
                 type="text"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
               />
               <input
+                className={styles.container__header__editName__inputs__input}
                 type="text"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
               />
             </div>
-            <div className={styles.container__header__button}>
+            <div className={styles.container__header__editName__buttons}>
               <Button label="Save" onClick={handleSave} />
+              <Button label="Cancel" onClick={() => setEditNameActive(false)} />
             </div>
           </div>
         ) : (
