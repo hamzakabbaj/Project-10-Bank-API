@@ -11,17 +11,19 @@
   }
 
   &__content {
-    position: absolute;
-    top: 50px;
-    right: 50px;
-    width: 300px;
-    margin: 2rem;
+    position: relative;
+    top: 2rem;
+    width: 200px;
     background: white;
     padding: 2rem;
     text-align: left;
     margin: 0 auto;
 
     @media (min-width: 920px) {
+      position: absolute;
+      top: 50px;
+      right: 50px;
+      width: 300px;
       margin: 2rem;
     }
 
