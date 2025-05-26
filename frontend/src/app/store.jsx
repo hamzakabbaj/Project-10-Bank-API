@@ -5,11 +5,6 @@ const store = configureStore({
   reducer: {
     auth: authReducer,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false, // recommended if using non-serializable like Date/File
-    }),
-  devTools: true, // Explicitly enable Redux DevTools
 });
 
 export default store;
